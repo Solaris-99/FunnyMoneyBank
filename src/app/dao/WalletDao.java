@@ -1,8 +1,12 @@
 package app.dao;
 
+import app.records.Wallet;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WalletDao extends Dao{
 
@@ -27,6 +31,16 @@ public class WalletDao extends Dao{
         PreparedStatement stmt = this.con.prepareStatement("UPDATE wallet SET balance = ?");
         stmt.setDouble(1, balance);
         stmt.execute();
+    }
+
+    @Override
+    protected List<Wallet> hydrate(ResultSet res) throws SQLException {
+        List<Wallet> wallets = new ArrayList<>();
+        while(res.next()){
+            Wallet wallet = new Wallet(res.getInt(1),res.getDouble(2),res.getInt(3));
+            wallets.add(wallet);
+        }
+        return wallets;
     }
 
 }

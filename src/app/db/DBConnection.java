@@ -7,12 +7,11 @@ public class DBConnection {
     private static DBConnection instance;
     private Connection con;
     private DBConnection(){
-        //TODO
         try{
             String engine = "mysql";
             String address = "localhost";
             String port = "3306";
-            String dbName = "TEST"; //TODO: CHANGE DB.
+            String dbName = "funnymoneybank";
             String user = "root";
             String password = "";
             con = DriverManager.getConnection("jdbc:"+engine+"://"+address+":"+port+"/"+dbName,user,password);
