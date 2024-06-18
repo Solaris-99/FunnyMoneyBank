@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 
 import app.controllers.UserController;
-import app.helpers.MoneyOperations;
+import app.helpers.Operation;
 
 public class MoneyOperation implements Viewable {
     private JPanel content;
@@ -17,9 +17,9 @@ public class MoneyOperation implements Viewable {
     private JLabel titleLabel;
     private JPanel target;
     private JTextField targetInput;
-    private MoneyOperations operation;
+    private Operation operation;
 
-    public MoneyOperation(MoneyOperations operation){
+    public MoneyOperation(Operation operation){
         this.operation = operation;
 
     }
@@ -35,15 +35,15 @@ public class MoneyOperation implements Viewable {
         UserController userController = new UserController();
         double userMoney = userController.getUserBalance();
         money.setText("$"+userMoney);
-        if(operation == MoneyOperations.DEPOSIT){
+        if(operation == Operation.DEPOSIT){
             form.remove(target);
             titleLabel.setText("Depósitar dinero");
         }
-        else if (operation == MoneyOperations.WITHDRAW){
+        else if (operation == Operation.WITHDRAW){
             form.remove(target);
             titleLabel.setText("Retirar dinero");
         }
-        else if (operation == MoneyOperations.TRANSFER){
+        else if (operation == Operation.TRANSFER){
             titleLabel.setText("Nueva Transferencia");
         }
 

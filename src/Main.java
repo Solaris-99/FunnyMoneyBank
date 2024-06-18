@@ -1,6 +1,4 @@
-import app.db.DBConnection;
 import view.*;
-import app.controllers.*;
 
 public class Main {
 

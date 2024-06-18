@@ -21,6 +21,10 @@ public class TransactionDao extends Dao{
         stmt.setInt(1,walletId);
         return this.hydrate(stmt.executeQuery());
     }
+    public List<Transaction> getTransactions() throws SQLException {
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM transaction");
+        return this.hydrate(stmt.executeQuery());
+    }
 
     @Override
     protected List<Transaction> hydrate(ResultSet res) throws SQLException {

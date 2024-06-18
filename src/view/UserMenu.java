@@ -1,7 +1,7 @@
 package view;
 
 import app.controllers.UserController;
-import app.helpers.MoneyOperations;
+import app.helpers.Operation;
 import app.helpers.Status;
 
 import javax.swing.*;
@@ -41,10 +41,10 @@ public class UserMenu implements Viewable {
         UserController userController = new UserController();
         setEmployeeView(Status.getInstance().isEmployee());
         setMoney("$" + userController.getUserBalance());
-        depositButton.addActionListener(new HyperLink<>(new MoneyOperation(MoneyOperations.DEPOSIT)));
-        withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(MoneyOperations.WITHDRAW)));
-        newTransferButton.addActionListener(new HyperLink<>(new MoneyOperation(MoneyOperations.TRANSFER)));
-        viewTransferencesButton.addActionListener(new HyperLink<>(new Transfers()));
+        depositButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.DEPOSIT)));
+        withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.WITHDRAW)));
+        newTransferButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.TRANSFER)));
+        viewTransferencesButton.addActionListener(new HyperLink<>(new Movements()));
     }
 
     @Override

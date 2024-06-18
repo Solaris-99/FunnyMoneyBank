@@ -19,14 +19,26 @@ public class UserController {
     }
 
     public double getUserBalance(){
+        return this.getUserWallet().balance();
+    }
+
+    public Wallet getUserWallet(){
         try {
-            Wallet wallet = walletDao.getWallet(Status.getInstance().getUserId(),true);
-            return wallet.balance();
+            return walletDao.getWallet(Status.getInstance().getUserId(),true);
         } catch (SQLException e) {
+            //TODO
             throw new RuntimeException(e);
         }
+    }
 
-
+    public User getUser(){
+        try{
+            return userDao.getUser(Status.getInstance().getUserId());
+        }
+        catch (SQLException e){
+            //TODO
+            throw new RuntimeException(e);
+        }
     }
 
 
