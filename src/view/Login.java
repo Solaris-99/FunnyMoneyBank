@@ -1,29 +1,62 @@
 package view;
+
+import app.controllers.Auth;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Login extends JPanel{
+public class Login implements Viewable {
+    private JPanel content;
+    private JLabel titleLabel;
+    private JPanel form;
+    private JLabel emailLabel;
+    private JTextField email;
+    private JPasswordField password;
+    private JLabel passwordLabel;
+    private JButton loginButton;
+    private JButton registerButton;
+    private JLabel error;
+    private JPanel title;
 
-    public Login(){
-//        BoxLayout layout = new BoxLayout(this,BoxLayout.Y_AXIS);
-//        this.setLayout(layout);
-        JPanel emailPanel = new JPanel();
-        JLabel emailLabel = new JLabel("Ingrese su email: ");
-        JTextField emailInput = new JTextField(50);
-        emailPanel.add(emailLabel);
-        emailPanel.add(emailInput);
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 
-        JPanel passwordPanel = new JPanel();
-        JLabel passwordLabel = new JLabel("Ingrese su contraseña: ");
-        JTextField passwordInput = new JTextField(50);
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordInput);
-        add(emailPanel);
-        add(passwordPanel);
+    public String getEmail() {
+        return email.getText();
+    }
 
-        JButton login = new JButton("Ingresar");
+    public void setError(String error) {
+        this.error.setText(error);
+    }
 
-        add(login);
+
+    public String getPassword() {
+        //TODO: return char[] and handle this on Auth
+        // Implement password hashing.
+        return new String(password.getPassword());
+    }
+
+    private void makeFunctional() {
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Auth auth = new Auth();
+                if (auth.login(getEmail(), getPassword())) {
+                    Window.goTo(new UserMenu());
+                } else {
+                    setError("Email y/o contraseña incorrecto(s)");
+                }
+            }
+        });
+        registerButton.addActionListener(new HyperLink<Register>(new Register()));
+    }
+
+    @Override
+    public JPanel getContent() {
+        makeFunctional();
+        return content;
     }
 
 }

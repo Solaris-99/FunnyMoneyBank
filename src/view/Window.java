@@ -1,34 +1,39 @@
 package view;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Window extends JFrame {
-    private JPanel contentPanel;
+    private static Window instance;
+    private JPanel content;
 
-    public Window(String title){
-        super(title);
-        BorderLayout layout = new BorderLayout();
-        setLayout(layout);
-        JPanel statusPanel = new JPanel();
-        this.contentPanel = new JPanel();
+    private Window(){
+        setTitle("FunnyMoneyBank");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800,600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(statusPanel,BorderLayout.NORTH);
-        add(contentPanel, BorderLayout.CENTER);
-
+        content = new JPanel();
+        add(content);
         setVisible(true);
     }
 
-    public void setContent(JPanel panel){
-        remove(this.contentPanel);
-        this.contentPanel = panel;
-
-        add(this.contentPanel,BorderLayout.CENTER);
-        revalidate();
-        repaint();
+    public static Window getInstance(){
+        if(instance == null){
+            instance = new Window();
+        }
+        return instance;
     }
 
+    private <T extends Viewable> void setContent(T view){
+        remove(content);
+        content = view.getContent();
+        add(content);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public static <T extends Viewable> void goTo(T view){
+        Window window = Window.getInstance();
+        window.setContent(view);
+    }
 
 }
