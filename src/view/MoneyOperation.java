@@ -32,6 +32,7 @@ public class MoneyOperation implements Viewable {
 
     private void makeFunctional(){
         toMenu.addActionListener(new HyperLink<>(new UserMenu()));
+        logout.addActionListener(new HyperLink<>(new Login()));
         UserController userController = new UserController();
         double userMoney = userController.getUserBalance();
         money.setText("$"+userMoney);

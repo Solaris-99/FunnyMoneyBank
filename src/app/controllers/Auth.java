@@ -40,6 +40,13 @@ public class Auth {
         return false;
     }
 
+    public static void logout(){
+        Status status = Status.getInstance();
+        status.setUserId(-1);
+        status.setEmployee(false);
+        status.setLogged(false);
+    }
+
 
 
 

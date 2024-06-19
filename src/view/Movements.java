@@ -20,7 +20,7 @@ public class Movements implements Viewable {
 
     private void makeFunctional(){
         TransactionController transactionController = new TransactionController();
-
+        logout.addActionListener(new HyperLink<>(new Login()));
         toMenu.addActionListener(new HyperLink<>(new UserMenu()));
         Status status = Status.getInstance();
     }
