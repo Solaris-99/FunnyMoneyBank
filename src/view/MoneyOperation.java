@@ -47,7 +47,6 @@ public class MoneyOperation implements Viewable {
         else if (operation == Operation.TRANSFER){
             titleLabel.setText("Nueva Transferencia");
         }
-
         content.repaint();
         content.revalidate();
     }

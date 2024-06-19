@@ -4,12 +4,9 @@ import app.dao.TransactionDao;
 import app.helpers.Operation;
 import app.helpers.Status;
 import app.records.Transaction;
-
-import javax.swing.*;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 
 public class TransactionController {
 
@@ -53,6 +50,16 @@ public class TransactionController {
             array[i] = a;
         }
         return array;
+    }
+
+    public void create(double amount, int id_wallet, int id_transaction_type){
+        try{
+            Date date = new Date(System.currentTimeMillis());
+            this.transactionDao.create(amount, date, id_wallet, id_transaction_type);
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
 }

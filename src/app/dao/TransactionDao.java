@@ -36,7 +36,7 @@ public class TransactionDao extends Dao{
         return transactions;
     }
 
-    public void Create(double amount, Date date, int id_wallet, int id_transaction_type) throws SQLException {
+    public void create(double amount, Date date, int id_wallet, int id_transaction_type) throws SQLException {
         PreparedStatement stmt = this.con.prepareStatement("INSERT INTO transaction(amount, date, id_wallet, id_transaction_type) VALUES (?, ?, ?, ?)");
         stmt.setDouble(1,amount);
         stmt.setDate(2, date);

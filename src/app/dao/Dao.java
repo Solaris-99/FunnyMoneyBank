@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public abstract class Dao {
-    // Is this necessary?
+
     protected final Connection con;
     protected Record dto;
 
@@ -16,5 +16,18 @@ public abstract class Dao {
     }
 
     protected abstract List<? extends Record> hydrate(ResultSet res) throws SQLException;
+
+    public void beginTransaction() throws SQLException {
+        this.con.setAutoCommit(false);
+    }
+
+    public void commit() throws SQLException {
+        this.con.commit();
+        this.con.setAutoCommit(true);
+    }
+
+    public void rollback() throws SQLException {
+        this.con.rollback();
+    }
 
 }
