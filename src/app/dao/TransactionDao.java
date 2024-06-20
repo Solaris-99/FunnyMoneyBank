@@ -64,7 +64,4 @@ public class TransactionDao extends Dao{
         stmt.setInt(5,id_wallet);
         stmt.executeQuery();
     }
-
-
-
 }
