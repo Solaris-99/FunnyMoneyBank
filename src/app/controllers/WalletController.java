@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.dao.WalletDao;
 import app.helpers.Operation;
-import app.helpers.Status;
 import app.records.Wallet;
 
 import java.sql.SQLException;
@@ -31,8 +30,8 @@ public class WalletController {
      * This method does not create a new Transaction register - use UserController instead.
      * */
     public void updateBalance(int walletId,double amount, Operation operation){
-        if(operation == Operation.TRANSFER || operation == Operation.REPLENISH){
-            throw new IllegalArgumentException("Attempting to Transfer or Replenish on updateBalance");
+        if(operation == Operation.TRANSFER){
+            throw new IllegalArgumentException("Attempting to Transfer on updateBalance");
         }
 
         UserController userController = new UserController();

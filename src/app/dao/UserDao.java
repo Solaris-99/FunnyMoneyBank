@@ -30,7 +30,14 @@ public class UserDao extends Dao{
     protected List<User> hydrate(ResultSet res) throws SQLException {
         List<User> users = new ArrayList<>();
         while(res.next()){
-            User user = new User(res.getInt(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5));
+            User user = new User(
+                    res.getInt("id"),
+                    res.getString("name"),
+                    res.getString("surname"),
+                    res.getString("email"),
+                    res.getString("password"),
+                    res.getString("code")
+            );
             users.add(user);
         }
         return users;

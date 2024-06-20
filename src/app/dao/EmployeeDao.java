@@ -25,7 +25,11 @@ public class EmployeeDao extends Dao {
     protected List<Employee> hydrate(ResultSet res) throws SQLException {
         List<Employee> employees = new ArrayList<>();
         while(res.next()){
-            Employee employee = new Employee(res.getInt(1),res.getInt(2));
+            Employee employee = new Employee(
+                    res.getInt("id"),
+                    res.getInt("id_user"),
+                    res.getDouble("salary")
+            );
             employees.add(employee);
         }
         return employees;

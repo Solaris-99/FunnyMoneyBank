@@ -60,7 +60,7 @@ public class UserController {
             userDao.beginTransaction();
             walletController.updateBalance(currentUserWalletId,amount, Operation.WITHDRAW);
             walletController.updateBalance(targetWalletId,amount, Operation.DEPOSIT);
-            transactionController.create(amount,currentUserWalletId, Operation.TRANSFER.getId());
+            transactionController.create(amount,currentUserWalletId, targetWalletId);
             userDao.commit();
         } catch (SQLException e) {
             try{
@@ -72,15 +72,15 @@ public class UserController {
     }
 
     public void atm(double amount, Operation operation){
-        if(operation == Operation.TRANSFER || operation == Operation.REPLENISH){
-            throw new IllegalArgumentException("Attempting to Transfer or Replenish on ATM");
+        if(operation == Operation.TRANSFER){
+            throw new IllegalArgumentException("Attempting to Transfer on ATM");
         }
         try {
             userDao.beginTransaction();
             int userId = Status.getInstance().getUserId();
             int walletId = this.getUserWallet(userId).id();
             this.walletController.updateBalance(walletId,amount,operation);
-            transactionController.create(amount,walletId,operation.getId());
+            transactionController.create(amount,walletId,operation);
             userDao.commit();
         } catch (SQLException e) {
             try{

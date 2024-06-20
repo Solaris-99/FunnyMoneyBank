@@ -9,7 +9,6 @@ import java.util.List;
 public abstract class Dao {
 
     protected final Connection con;
-    protected Record dto;
 
     public Dao(){
         this.con = DBConnection.getConnection();

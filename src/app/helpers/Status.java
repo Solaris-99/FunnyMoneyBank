@@ -5,7 +5,7 @@ public class Status {
     private boolean isLogged;
     private boolean isEmployee;
     private int userId;
-
+    public static final int ID_ATM = 1; //el id de "este cajero"
     private static Status instance;
 
     private Status(){

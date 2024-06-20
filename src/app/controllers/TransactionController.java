@@ -52,10 +52,20 @@ public class TransactionController {
         return array;
     }
 
-    public void create(double amount, int id_wallet, int id_transaction_type){
+    public void create(double amount, int id_wallet, Operation operation){
         try{
             Date date = new Date(System.currentTimeMillis());
-            this.transactionDao.create(amount, date, id_wallet, id_transaction_type);
+            this.transactionDao.create(amount,date,operation.getId(),Status.ID_ATM,id_wallet);
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void create(double amount, int id_wallet, int id_wallet_target){
+        try{
+            Date date = new Date(System.currentTimeMillis());
+            this.transactionDao.create(amount,date,Operation.TRANSFER.getId(), Status.ID_ATM,id_wallet,id_wallet_target);
         }
         catch (SQLException e){
             throw new RuntimeException(e);
