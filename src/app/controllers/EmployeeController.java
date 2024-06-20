@@ -30,6 +30,7 @@ public class EmployeeController {
             employeeDao.beginTransaction();
 
             double newAmount = atmController.getAtm(Status.ID_ATM).money() + amount;
+            System.out.println(newAmount);
             atmController.updateMoney(Status.ID_ATM,newAmount);
             atmController.newAtmTransaction(employee.id(),amount);
 
@@ -38,7 +39,9 @@ public class EmployeeController {
         } catch (SQLException e) {
 
             try{
+                System.out.println("error, rolling back on replenish");
                 employeeDao.rollback();
+
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }

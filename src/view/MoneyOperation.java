@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 
+import app.controllers.AtmController;
+import app.controllers.EmployeeController;
 import app.controllers.UserController;
 import app.helpers.Operation;
 import app.helpers.Status;
@@ -35,21 +37,23 @@ public class MoneyOperation implements Viewable {
     }
 
     private void updateMoneyLabel() {
-        UserController userController = new UserController();
-        double userMoney = userController.getUserBalance();
-        money.setText("$"+userMoney);
+        if(!Status.getInstance().isEmployee()){
+            UserController userController = new UserController();
+            double userMoney = userController.getUserBalance();
+            money.setText("$"+userMoney);
+        }
+        else{
+            AtmController atmController = new AtmController();
+            double atmMoney = atmController.getAtm(Status.ID_ATM).money();
+            money.setText("$" + atmMoney);
+        }
     }
-
 
     private void makeFunctional(){
         toMenu.addActionListener(new HyperLink<>(new UserMenu()));
         logout.addActionListener(new HyperLink<>(new Login()));
         UserController userController = new UserController();
         updateMoneyLabel();
-
-
-
-
         if(operation == Operation.DEPOSIT || operation == Operation.WITHDRAW){
             confirmarButton.addActionListener(new ActionListener() {
                 @Override
@@ -84,9 +88,21 @@ public class MoneyOperation implements Viewable {
             });
             titleLabel.setText("Nueva Transferencia");
         }
+        else{
+            System.out.println("employee view");
+            form.remove(target);
+            confirmarButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    double amount = Double.parseDouble(moneyInput.getText());
+                    EmployeeController employeeController = new EmployeeController();
+                    employeeController.replenishAtmMoney(amount);
+                    updateMoneyLabel();
+                }
+            });
+        }
         content.repaint();
         content.revalidate();
     }
-
 
 }

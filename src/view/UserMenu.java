@@ -37,7 +37,6 @@ public class UserMenu implements Viewable {
         } else {
             buttonsPanel.remove(replenishMoneyButton);
             UserController userController = new UserController();
-            setEmployeeView(Status.getInstance().isEmployee());
             setMoney("$" + userController.getUserBalance());
             depositButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.DEPOSIT)));
             withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.WITHDRAW)));
@@ -50,6 +49,7 @@ public class UserMenu implements Viewable {
     private void makeFunctional() {
         //TODO
         setEmployeeView(Status.getInstance().isEmployee());
+        logout.addActionListener(new HyperLink<>(new Login()));
         viewTransferencesButton.addActionListener(new HyperLink<>(new Movements()));
 
     }

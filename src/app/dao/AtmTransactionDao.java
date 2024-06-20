@@ -43,7 +43,7 @@ public class AtmTransactionDao extends Dao{
         stmt.setInt(2,id_atm);
         stmt.setDouble(3,amount);
         stmt.setDate(4,date);
-        stmt.executeQuery();
+        stmt.executeUpdate();
     }
 
 }

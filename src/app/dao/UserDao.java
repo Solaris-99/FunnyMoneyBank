@@ -32,6 +32,16 @@ public class UserDao extends Dao{
         return this.hydrate(stmt.executeQuery()).getFirst();
     }
 
+    public void createUser(String name, String surname, String email, String password, String code) throws SQLException {
+        PreparedStatement stmt = this.con.prepareStatement("INSERT INTO USER (NAME, SURNAME, EMAIL, PASSWORD, CODE) VALUES(?,?,?,?,?)");
+        stmt.setString(1, name);
+        stmt.setString(2, surname);
+        stmt.setString(3, email);
+        stmt.setString(4, password);
+        stmt.setString(5, code);
+        stmt.executeUpdate();
+    }
+
     @Override
     protected List<User> hydrate(ResultSet res) throws SQLException {
         List<User> users = new ArrayList<>();
@@ -48,6 +58,7 @@ public class UserDao extends Dao{
         }
         return users;
     }
+
 
 
 }

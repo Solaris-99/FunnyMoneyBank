@@ -20,9 +20,10 @@ public class AtmDao extends Dao{
     }
 
     public void updateMoney(int id, double amount) throws SQLException{
-        PreparedStatement stmt = this.con.prepareStatement("UPDATE atm SET money = ? WHERE id = ?");
+        PreparedStatement stmt = this.con.prepareStatement("UPDATE ATM SET money = ? WHERE id = ?");
         stmt.setDouble(1,amount);
         stmt.setInt(2,id);
+        stmt.executeUpdate();
     }
 
     @Override
