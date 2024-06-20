@@ -3,7 +3,8 @@ package app.helpers;
 public enum Operation {
     WITHDRAW(1),
     DEPOSIT(2),
-    TRANSFER(3);
+    TRANSFER(3),
+    REPLENISH(4);
 
     private final int id;
 

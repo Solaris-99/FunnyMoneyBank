@@ -89,7 +89,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `atm` ;
 
 CREATE TABLE IF NOT EXISTS `atm` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `money` DECIMAL(10,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -125,6 +125,31 @@ CREATE TABLE IF NOT EXISTS `transaction` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_transaction_atm1`
+    FOREIGN KEY (`id_atm`)
+    REFERENCES `atm` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `atm_transaction`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `atm_transaction` ;
+
+CREATE TABLE IF NOT EXISTS `atm_transaction` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_employee` INT NOT NULL,
+  `id_atm` INT NOT NULL,
+  `amount` DECIMAL(10,2) NOT NULL,
+  `date` DATE NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_employee_atm_employee1`
+    FOREIGN KEY (`id_employee`)
+    REFERENCES `employee` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_employee_atm_atm1`
     FOREIGN KEY (`id_atm`)
     REFERENCES `atm` (`id`)
     ON DELETE NO ACTION

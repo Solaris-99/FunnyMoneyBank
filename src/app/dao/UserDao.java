@@ -26,6 +26,12 @@ public class UserDao extends Dao{
         return this.hydrate(stmt.executeQuery()).getFirst();
     }
 
+    public User getUserByCode(String code) throws  SQLException{
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM user WHERE code = ?");
+        stmt.setString(1,code);
+        return this.hydrate(stmt.executeQuery()).getFirst();
+    }
+
     @Override
     protected List<User> hydrate(ResultSet res) throws SQLException {
         List<User> users = new ArrayList<>();

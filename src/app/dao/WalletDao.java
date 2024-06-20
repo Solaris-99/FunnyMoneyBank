@@ -31,7 +31,7 @@ public class WalletDao extends Dao{
         PreparedStatement stmt = this.con.prepareStatement("UPDATE wallet SET balance = ? WHERE id = ?");
         stmt.setDouble(1, balance);
         stmt.setInt(2,wallet_id);
-        stmt.execute();
+        stmt.executeUpdate();
     }
 
     @Override

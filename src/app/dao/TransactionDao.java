@@ -52,7 +52,7 @@ public class TransactionDao extends Dao{
         stmt.setInt(4,id_atm);
         stmt.setInt(5,id_wallet);
         stmt.setInt(6,id_wallet_target);
-        stmt.executeQuery();
+        stmt.executeUpdate();
     }
 
     public void create(double amount, Date date, int id_transaction_type,int id_atm, int id_wallet ) throws SQLException {
@@ -62,6 +62,6 @@ public class TransactionDao extends Dao{
         stmt.setInt(3,id_transaction_type);
         stmt.setInt(4,id_atm);
         stmt.setInt(5,id_wallet);
-        stmt.executeQuery();
+        stmt.executeUpdate();
     }
 }

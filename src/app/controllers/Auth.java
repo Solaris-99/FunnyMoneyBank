@@ -28,6 +28,7 @@ public class Auth {
                 status.setLogged(true);
                 status.setUserId(user.id());
                 status.setEmployee(isEmployee);
+                status.setUserCode(user.code());
                 return true;
             }
         } catch (SQLException e) {
@@ -45,10 +46,8 @@ public class Auth {
         status.setUserId(-1);
         status.setEmployee(false);
         status.setLogged(false);
+        status.setUserCode(null);
     }
-
-
-
 
 
 }

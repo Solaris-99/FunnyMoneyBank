@@ -15,11 +15,19 @@ public class EmployeeDao extends Dao {
     }
 
     public boolean isEmployee(int userId) throws SQLException {
-        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM employee WHERE id_user = ?");
+        PreparedStatement stmt = this.con.prepareStatement("SELECT id FROM employee WHERE id_user = ?");
         stmt.setInt(1,userId);
         ResultSet res = stmt.executeQuery();
         return res.isBeforeFirst();
     }
+
+    public Employee getEmployee(int userId) throws SQLException{
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM employee WHERE id_user = ?");
+        stmt.setInt(1,userId);
+        ResultSet res = stmt.executeQuery();
+        return this.hydrate(res).getFirst();
+    }
+
 
     @Override
     protected List<Employee> hydrate(ResultSet res) throws SQLException {

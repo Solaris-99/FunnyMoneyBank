@@ -1,5 +1,6 @@
 package view;
 
+import app.controllers.AtmController;
 import app.controllers.UserController;
 import app.helpers.Operation;
 import app.helpers.Status;
@@ -29,8 +30,18 @@ public class UserMenu implements Viewable {
             buttonsPanel.remove(newTransferButton);
             buttonsPanel.remove(withdrawButton);
             buttonsPanel.remove(depositButton);
+            AtmController atmController = new AtmController();
+            setMoney("$" + atmController.getAtm(Status.ID_ATM).money());
+            replenishMoneyButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.REPLENISH)));
+
         } else {
             buttonsPanel.remove(replenishMoneyButton);
+            UserController userController = new UserController();
+            setEmployeeView(Status.getInstance().isEmployee());
+            setMoney("$" + userController.getUserBalance());
+            depositButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.DEPOSIT)));
+            withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.WITHDRAW)));
+            newTransferButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.TRANSFER)));
         }
         buttonsPanel.revalidate();
         buttonsPanel.repaint();
@@ -38,13 +49,9 @@ public class UserMenu implements Viewable {
 
     private void makeFunctional() {
         //TODO
-        UserController userController = new UserController();
         setEmployeeView(Status.getInstance().isEmployee());
-        setMoney("$" + userController.getUserBalance());
-        depositButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.DEPOSIT)));
-        withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.WITHDRAW)));
-        newTransferButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.TRANSFER)));
         viewTransferencesButton.addActionListener(new HyperLink<>(new Movements()));
+
     }
 
     @Override

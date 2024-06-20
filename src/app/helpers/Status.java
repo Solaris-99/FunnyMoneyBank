@@ -2,10 +2,11 @@ package app.helpers;
 
 public class Status {
 
+    public static final int ID_ATM = 1; //el id de "este cajero"
     private boolean isLogged;
     private boolean isEmployee;
     private int userId;
-    public static final int ID_ATM = 1; //el id de "este cajero"
+    private String userCode;
     private static Status instance;
 
     private Status(){
@@ -44,6 +45,13 @@ public class Status {
         this.userId = userId;
     }
 
+    public void setUserCode(String code){
+        this.userCode = code;
+    }
+
+    public String getUserCode(){
+        return userCode;
+    }
 
 
 }
