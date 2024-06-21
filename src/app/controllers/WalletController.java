@@ -22,6 +22,14 @@ public class WalletController {
         }
     }
 
+    public void createWallet(double balance, int userId){
+        try {
+            this.walletDao.createWallet(balance,userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * update the wallet's balance.
      * @param walletId The id of the wallet.

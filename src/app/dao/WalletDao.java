@@ -17,10 +17,10 @@ public class WalletDao extends Dao{
     public Wallet getWallet(int id, boolean isUserId) throws SQLException {
         String sql = "SELECT * FROM wallet WHERE ";
         if(isUserId){
-            sql += "id = ?";
+            sql += "id_user = ?";
         }
         else{
-            sql += "user_id = ?";
+            sql += "id = ?";
         }
         PreparedStatement stmt = this.con.prepareStatement(sql);
         stmt.setInt(1,id);
@@ -44,5 +44,11 @@ public class WalletDao extends Dao{
         return wallets;
     }
 
+    public void createWallet(double balance, int id_user) throws SQLException {
+        PreparedStatement stmt = this.con.prepareStatement("INSERT INTO WALLET (BALANCE, ID_USER) VALUES(?, ?)");
+        stmt.setDouble(1,balance);
+        stmt.setInt(2,id_user);
+        stmt.executeUpdate();
+    }
 
 }

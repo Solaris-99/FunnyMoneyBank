@@ -8,6 +8,7 @@ import app.records.Wallet;
 
 import javax.swing.*;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class UserController {
 
@@ -114,6 +115,27 @@ public class UserController {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+        }
+    }
+
+    public User register(String name, String surname, String email, String password){
+        if(name.isBlank() || surname.isBlank() || email.isBlank() || password.isBlank()){
+            JOptionPane.showMessageDialog(null,"Debe ingresar todos los campos", "Error",JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        try{
+
+            this.userDao.beginTransaction();
+            String code = UUID.randomUUID().toString();
+            int id = this.userDao.createUser(name,surname,email,password,code);
+            walletController.createWallet(0,id);
+            Auth auth = new Auth();
+            auth.login(email,password);
+            return new User(id, name,surname,email,password,code);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"No se pudo crear el usuario, por favor vuelva a intentarlo", "Error",JOptionPane.ERROR_MESSAGE);
+            return null;
         }
     }
 

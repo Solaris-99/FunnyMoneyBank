@@ -16,6 +16,7 @@ public class Movements implements Viewable {
     private JButton logout;
     private JTable transfers;
     private JLabel message;
+    private JPanel tableParent;
 
 
     private void makeFunctional(){
@@ -38,7 +39,9 @@ public class Movements implements Viewable {
         String[] cols = {"Monto", "Fecha","Tipo"};
         String[][] tableContents = transactionController.getArrayTable();
         if(tableContents.length == 0){
-            message.setText("No hay movimientos para mostrar");
+            message = new JLabel();
+            message.setText("No hay transacciones para mostrar");
+            message.setVisible(true);
         }
         transfers = new JTable(tableContents, cols);
         transfers.setVisible(true);
