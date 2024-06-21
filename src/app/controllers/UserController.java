@@ -94,11 +94,22 @@ public class UserController {
     }
 
     public void atm(double amount, Operation operation){
+        //TODO: ATM ADD/DEC MONEY
+        AtmController atmController = new AtmController();
+        double atmMoney = atmController.getAtm(Status.ID_ATM).money();
         if(operation == Operation.TRANSFER){
             throw new IllegalArgumentException("Attempting to Transfer on ATM");
         }
+        if (amount > atmMoney && operation == Operation.WITHDRAW){
+            JOptionPane.showMessageDialog(null, "El monto máximo que este cajero puede facilitar es: $"+atmMoney,"Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(amount < 10){
-            JOptionPane.showMessageDialog(null, "El monto minimo para operar es 10","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El monto mínimo para operar el cajero automático es de $10","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(amount > getUserBalance() && operation == Operation.WITHDRAW){
+            JOptionPane.showMessageDialog(null, "Fondos insuficentes.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -108,6 +119,7 @@ public class UserController {
             int walletId = this.getUserWallet(userId).id();
             this.walletController.updateBalance(walletId,amount,operation);
             transactionController.create(amount,walletId,operation);
+            atmController.updateMoney(Status.ID_ATM,amount,operation);
             userDao.commit();
         } catch (SQLException e) {
             try{
@@ -127,13 +139,14 @@ public class UserController {
 
             this.userDao.beginTransaction();
             String code = UUID.randomUUID().toString();
-            int id = this.userDao.createUser(name,surname,email,password,code);
-            walletController.createWallet(0,id);
+            User user = this.userDao.createUser(name,surname,email,password,code);
+            walletController.createWallet(0,user.id());
             Auth auth = new Auth();
             auth.login(email,password);
-            return new User(id, name,surname,email,password,code);
+            return user;
 
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null,"No se pudo crear el usuario, por favor vuelva a intentarlo", "Error",JOptionPane.ERROR_MESSAGE);
             return null;
         }

@@ -35,7 +35,6 @@ public class Auth {
             throw new RuntimeException(e);
         }
         catch (NoSuchElementException e){
-            //todo
             System.out.println("No se encuentra el usuario");
         }
         return false;

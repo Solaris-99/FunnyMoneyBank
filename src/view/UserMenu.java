@@ -4,6 +4,7 @@ import app.controllers.AtmController;
 import app.controllers.UserController;
 import app.helpers.Operation;
 import app.helpers.Status;
+import app.records.User;
 
 import javax.swing.*;
 
@@ -19,14 +20,18 @@ public class UserMenu implements Viewable {
     private JButton logout;
     private JPanel buttonsPanel;
     private JPanel title;
+    private JPanel moneyLabelPanel;
+    private JLabel message;
 
     public void setMoney(String money) {
         this.money.setText(money);
     }
 
-    public void setEmployeeView(boolean v) {
-        if (v) {
+    public void setEmployeeView(boolean isEmployee) {
+        if (isEmployee) {
             //mostrar el dinero del cajero si es el empleado.
+            message.setText("Dinero del cajero:");
+            message.setVisible(true);
             buttonsPanel.remove(newTransferButton);
             buttonsPanel.remove(withdrawButton);
             buttonsPanel.remove(depositButton);
@@ -48,10 +53,12 @@ public class UserMenu implements Viewable {
 
     private void makeFunctional() {
         //TODO
+        UserController userController = new UserController();
+        User user = userController.getUser();
+        titleLabel.setText(String.format("Bienvenido, %s %s",user.name(), user.surname()));
         setEmployeeView(Status.getInstance().isEmployee());
         logout.addActionListener(new HyperLink<>(new Login()));
         viewTransferencesButton.addActionListener(new HyperLink<>(new Movements()));
-
     }
 
     @Override

@@ -17,7 +17,7 @@ public class DBConnection {
             con = DriverManager.getConnection("jdbc:"+engine+"://"+address+":"+port+"/"+dbName,user,password);
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Error de conexión");
+            JOptionPane.showMessageDialog(null,"Error de conexión","No se pudo conectar",JOptionPane.ERROR_MESSAGE);
         }
 
     }

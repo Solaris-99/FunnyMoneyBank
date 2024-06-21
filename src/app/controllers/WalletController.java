@@ -44,12 +44,6 @@ public class WalletController {
 
         UserController userController = new UserController();
         double balance = userController.getUserBalance();
-        if(amount > balance){
-            //todo: gui
-            System.out.println("no tienes fondos suficientes");
-            return;
-        }
-
         double newBalance;
         if(operation == Operation.DEPOSIT){
             newBalance = balance + amount;

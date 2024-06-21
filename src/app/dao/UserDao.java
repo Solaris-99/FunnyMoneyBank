@@ -5,6 +5,7 @@ import app.records.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +33,19 @@ public class UserDao extends Dao{
         return this.hydrate(stmt.executeQuery()).getFirst();
     }
 
-    public int createUser(String name, String surname, String email, String password, String code) throws SQLException {
-        PreparedStatement stmt = this.con.prepareStatement("INSERT INTO USER (NAME, SURNAME, EMAIL, PASSWORD, CODE) VALUES(?,?,?,?,?)");
+    public User createUser(String name, String surname, String email, String password, String code) throws SQLException {
+        PreparedStatement stmt = this.con.prepareStatement("INSERT INTO USER (NAME, SURNAME, EMAIL, PASSWORD, CODE) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, name);
         stmt.setString(2, surname);
         stmt.setString(3, email);
         stmt.setString(4, password);
         stmt.setString(5, code);
         stmt.executeUpdate();
-        return stmt.getGeneratedKeys().getInt("id");
+        System.out.println(stmt.getGeneratedKeys());
+        ResultSet res = stmt.getGeneratedKeys();
+        res.next();
+        int id = res.getInt(1);
+        return new User(id, name,surname,email,password,code);
     }
 
     @Override

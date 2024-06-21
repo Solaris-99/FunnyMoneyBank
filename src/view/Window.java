@@ -25,7 +25,7 @@ public class Window extends JFrame {
 
     private <T extends Viewable> void setContent(T view){
         remove(content);
-        content = view.getContent();
+        content = view. getContent();
         add(content);
         this.revalidate();
         this.repaint();
