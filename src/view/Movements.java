@@ -5,6 +5,7 @@ import app.controllers.UserController;
 import app.helpers.Status;
 import app.records.Transaction;
 
+import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
@@ -17,6 +18,7 @@ public class Movements implements Viewable {
     private JTable transfers;
     private JLabel message;
     private JPanel tableParent;
+    private JLabel statistics;
 
 
     private void makeFunctional(){
@@ -24,6 +26,9 @@ public class Movements implements Viewable {
         logout.addActionListener(new HyperLink<>(new Login()));
         toMenu.addActionListener(new HyperLink<>(new UserMenu()));
         Status status = Status.getInstance();
+        if(status.isEmployee()){
+            statistics.setText(transactionController.getStatistics());
+        }
     }
 
     @Override
@@ -48,6 +53,7 @@ public class Movements implements Viewable {
         transfers.setBounds(30,40,200,300);
         transfers.revalidate();
         transfers.repaint();
+
     }
 }
 

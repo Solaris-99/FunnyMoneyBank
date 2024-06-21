@@ -16,11 +16,18 @@ public class TransactionDao extends Dao{
     }
 
 
-    public List<Transaction> getTransactions(int walletId) throws SQLException {
-        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM transaction WHERE id_wallet = ?");
-        stmt.setInt(1,walletId);
+    public List<Transaction> getTransactions(int id, String column) throws SQLException {
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM transaction WHERE "+ column +" = ?");
+        stmt.setInt(1,id);
         return this.hydrate(stmt.executeQuery());
     }
+
+//    public List<Transaction> getTransactions(int walletId) throws SQLException {
+//        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM transaction WHERE id_wallet = ?");
+//        stmt.setInt(1,walletId);
+//        return this.hydrate(stmt.executeQuery());
+//    }
+
     public List<Transaction> getTransactions() throws SQLException {
         PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM transaction");
         return this.hydrate(stmt.executeQuery());
@@ -64,4 +71,5 @@ public class TransactionDao extends Dao{
         stmt.setInt(5,id_wallet);
         stmt.executeUpdate();
     }
+
 }

@@ -4,6 +4,8 @@ import app.dao.TransactionDao;
 import app.helpers.Operation;
 import app.helpers.Status;
 import app.records.Transaction;
+
+import javax.swing.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +20,7 @@ public class TransactionController {
 
     public List<Transaction> getTransactions(int wallet_id){
         try {
-            return transactionDao.getTransactions(wallet_id);
+            return transactionDao.getTransactions(wallet_id,"id_wallet");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,6 +73,30 @@ public class TransactionController {
             throw new RuntimeException(e);
         }
     }
+
+    public String getStatistics(){
+        try{
+            int withdrawAmount = transactionDao.getTransactions(1,"id_transaction_type").size();
+            int depositAmount = transactionDao.getTransactions(2,"id_transaction_type").size();
+            int transferAmount = transactionDao.getTransactions(3,"id_transaction_type").size();
+            int totalAmount = withdrawAmount + depositAmount + transferAmount;
+            double withdrawPercent = (double) withdrawAmount/totalAmount * 100;
+            double depositPercent = (double) depositAmount/totalAmount * 100;
+            double transferPercent = (double) transferAmount/totalAmount* 100;
+
+            return "<html>Estadisticas:\n" + "Retiros: " + withdrawAmount + " totales, " + Math.round(withdrawPercent) + "%<br>" +
+                    "Depositos: " + depositAmount + " totales, " + Math.round(depositPercent) + "%<br>" + //<br> goes brrrrrrrr
+                    "Retiros: " + transferAmount + " totales, " + Math.round(transferPercent) + "%</html>";
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null,"Algo salió mal generando las estadísticas","Error",JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+    }
+
+
 
 }
 

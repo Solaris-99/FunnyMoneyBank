@@ -31,7 +31,6 @@ public class UserMenu implements Viewable {
         if (isEmployee) {
             //mostrar el dinero del cajero si es el empleado.
             message.setText("Dinero del cajero:");
-            message.setVisible(true);
             buttonsPanel.remove(newTransferButton);
             buttonsPanel.remove(withdrawButton);
             buttonsPanel.remove(depositButton);
@@ -43,12 +42,14 @@ public class UserMenu implements Viewable {
             buttonsPanel.remove(replenishMoneyButton);
             UserController userController = new UserController();
             setMoney("$" + userController.getUserBalance());
+            message.setText(String.format("Código de cliente:\n%s",userController.getUser().code()));
             depositButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.DEPOSIT)));
             withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.WITHDRAW)));
             newTransferButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.TRANSFER)));
         }
         buttonsPanel.revalidate();
         buttonsPanel.repaint();
+
     }
 
     private void makeFunctional() {
@@ -59,6 +60,8 @@ public class UserMenu implements Viewable {
         setEmployeeView(Status.getInstance().isEmployee());
         logout.addActionListener(new HyperLink<>(new Login()));
         viewTransferencesButton.addActionListener(new HyperLink<>(new Movements()));
+        message.setVisible(true);
+
     }
 
     @Override
