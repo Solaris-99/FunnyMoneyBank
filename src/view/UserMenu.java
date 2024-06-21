@@ -22,6 +22,7 @@ public class UserMenu implements Viewable {
     private JPanel title;
     private JPanel moneyLabelPanel;
     private JLabel message;
+    private JButton atmTransferences;
 
     public void setMoney(String money) {
         this.money.setText(money);
@@ -37,9 +38,10 @@ public class UserMenu implements Viewable {
             AtmController atmController = new AtmController();
             setMoney("$" + atmController.getAtm(Status.ID_ATM).money());
             replenishMoneyButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.REPLENISH)));
-
+            atmTransferences.addActionListener(new HyperLink<>(new AtmMovements()));
         } else {
             buttonsPanel.remove(replenishMoneyButton);
+            buttonsPanel.remove(atmTransferences);
             UserController userController = new UserController();
             setMoney("$" + userController.getUserBalance());
             message.setText(String.format("Código de cliente:\n%s",userController.getUser().code()));

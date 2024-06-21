@@ -15,21 +15,25 @@ public class UserDao extends Dao{
         super();
     }
 
-    public User getUser(int id) throws SQLException {
-        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM user WHERE id = ?");
+    /**
+     * Get the user based on a single column filter.
+     * @param id The value of the filter.
+     * @param column The column to filter on.
+     * */
+    public User getUser(int id, String column) throws SQLException {
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM user WHERE "+ column + " = ?");
         stmt.setInt(1,id);
         return this.hydrate(stmt.executeQuery()).getFirst();
     }
 
-    public User getUser(String email) throws SQLException {
-        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM user WHERE email = ?");
-        stmt.setString(1,email);
-        return this.hydrate(stmt.executeQuery()).getFirst();
-    }
-
-    public User getUserByCode(String code) throws  SQLException{
-        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM user WHERE code = ?");
-        stmt.setString(1,code);
+    /**
+     * Get the user based on a single column filter.
+     * @param value The value of the filter.
+     * @param column The column to filter on.
+     * */
+    public User getUser(String value, String column) throws SQLException{
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM user WHERE "+ column + " = ?");
+        stmt.setString(1,value);
         return this.hydrate(stmt.executeQuery()).getFirst();
     }
 

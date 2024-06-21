@@ -21,13 +21,12 @@ public class EmployeeDao extends Dao {
         return res.isBeforeFirst();
     }
 
-    public Employee getEmployee(int userId) throws SQLException{
-        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM employee WHERE id_user = ?");
-        stmt.setInt(1,userId);
+    public Employee getEmployee(int id, String column) throws SQLException{
+        PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM employee WHERE "+ column +" = ?");
+        stmt.setInt(1,id);
         ResultSet res = stmt.executeQuery();
         return this.hydrate(res).getFirst();
     }
-
 
     @Override
     protected List<Employee> hydrate(ResultSet res) throws SQLException {

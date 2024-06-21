@@ -34,9 +34,12 @@ public class UserController {
         return walletController.getWallet(userId, true);
     }
 
+    /**
+     * Returns the current user, set in Status.userId
+     * */
     public User getUser(){
         try{
-            return userDao.getUser(Status.getInstance().getUserId());
+            return userDao.getUser(Status.getInstance().getUserId(), "id");
         }
         catch (SQLException e){
             //TODO
@@ -44,12 +47,22 @@ public class UserController {
         }
     }
 
-    public User getUserByCode(String code){
+    public User getUser(int id){
         try{
-            return userDao.getUserByCode(code);
+            return userDao.getUser(id, "id");
         }
         catch (SQLException e){
-            //TODO
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User getUser(String code){
+        try{
+            return userDao.getUser(code,"code");
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -71,7 +84,7 @@ public class UserController {
             return false;
         }
 
-        int targetId = this.getUserByCode(userCode).id();
+        int targetId = this.getUser(userCode).id();
         int userId = Status.getInstance().getUserId();
         int currentUserWalletId = this.getUserWallet(userId).id();
         int targetWalletId = this.getUserWallet(targetId).id();

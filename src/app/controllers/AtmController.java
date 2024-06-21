@@ -4,11 +4,11 @@ import app.dao.AtmDao;
 import app.dao.AtmTransactionDao;
 import app.helpers.Operation;
 import app.helpers.Status;
-import app.records.Atm;
-import app.records.Employee;
+import app.records.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AtmController {
 
@@ -79,5 +79,27 @@ public class AtmController {
         }
     }
 
+    public String[][] getAtmArrayTable(int atmId){
+        try {
+            EmployeeController employeeController = new EmployeeController();
+            List<AtmTransaction> transactions = atmTransactionDao.getTransactions();
+            String[][] array = new String[transactions.size()][3];  //3 columnas: empleado, amount, date
+
+            for (int i = 0; i < transactions.size(); i++){
+                AtmTransaction t = transactions.get(i);
+                User employee = employeeController.getUser(t.id_employee());
+                String name = employee.name() + " " + employee.surname();
+                String[] a = new String[]{name, "$"+t.amount(), t.date().toString() };
+                array[i] = a;
+            }
+            return array;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+
+    }
 
 }

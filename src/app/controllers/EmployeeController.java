@@ -3,6 +3,7 @@ package app.controllers;
 import app.dao.EmployeeDao;
 import app.helpers.Status;
 import app.records.Employee;
+import app.records.User;
 
 import java.sql.SQLException;
 
@@ -16,8 +17,20 @@ public class EmployeeController {
 
     public Employee getEmployee(int userId){
         try{
-           return this.employeeDao.getEmployee(userId);
+           return this.employeeDao.getEmployee(userId, "user_id");
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User getUser(int employeeId){
+        try {
+            UserController userController = new UserController();
+            Employee employee = this.employeeDao.getEmployee(employeeId, "id");
+            return userController.getUser(employee.id_user());
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }

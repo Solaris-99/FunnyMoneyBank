@@ -20,7 +20,7 @@ public class Auth {
 
     public boolean login(String userEmail, String password){
         try {
-            User user = userDao.getUser(userEmail);
+            User user = userDao.getUser(userEmail, "email");
             boolean isEmployee = employeeDao.isEmployee(user.id());
             System.out.println(user);
             if(password.equals(user.password())){
