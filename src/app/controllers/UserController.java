@@ -13,7 +13,7 @@ import java.util.UUID;
 public class UserController {
 
     private final WalletController walletController;
-    private final UserDao userDao;
+    private final UserDao userDao; //No es final porque se rompe con mockito.
     private final TransactionController transactionController;
 
     public UserController(){

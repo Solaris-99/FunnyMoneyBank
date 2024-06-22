@@ -35,13 +35,13 @@ public class TransactionController {
     }
 
     public String[][] getArrayTable(){
-        UserController userController = new UserController();
         List<Transaction> transactions;
         Status status = Status.getInstance();
         if(status.isEmployee()){
             transactions = this.getTransactions();
         }
         else{
+            UserController userController = new UserController();
             transactions = this.getTransactions(userController.getUserWallet().id());
         }
 
