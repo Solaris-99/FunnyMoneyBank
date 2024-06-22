@@ -9,8 +9,8 @@ import java.util.NoSuchElementException;
 
 public class Auth {
 
-    private UserDao userDao;
-    private EmployeeDao employeeDao;
+    private final UserDao userDao;
+    private final EmployeeDao employeeDao;
 
 
     public Auth(){

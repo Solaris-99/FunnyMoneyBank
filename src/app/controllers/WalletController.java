@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class WalletController {
 
-    private WalletDao walletDao;
+    private final WalletDao walletDao;
 
     public WalletController(){
         walletDao = new WalletDao();

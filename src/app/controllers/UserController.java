@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public class UserController {
 
-    private WalletController walletController;
-    private UserDao userDao;
-    private TransactionController transactionController;
+    private final WalletController walletController;
+    private final UserDao userDao;
+    private final TransactionController transactionController;
 
     public UserController(){
         walletController = new WalletController();
@@ -42,7 +42,7 @@ public class UserController {
             return userDao.getUser(Status.getInstance().getUserId(), "id");
         }
         catch (SQLException e){
-            //TODO
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -107,7 +107,6 @@ public class UserController {
     }
 
     public void atm(double amount, Operation operation){
-        //TODO: ATM ADD/DEC MONEY
         AtmController atmController = new AtmController();
         double atmMoney = atmController.getAtm(Status.ID_ATM).money();
         if(operation == Operation.TRANSFER){
