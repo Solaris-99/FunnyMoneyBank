@@ -80,7 +80,7 @@ public class UserController {
         if(status.isEmployee()){
             throw new RuntimeException("YOU SHOULD NOT BE HERE!");
         }
-        if(status.getUserCode() == userCode){
+        if(status.getUserCode().equals(userCode)){
             return false;
         }
 
