@@ -8,6 +8,7 @@ import app.records.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -43,7 +44,8 @@ public class AuthTest {
     public void successfulLoginTest() throws SQLException {
         boolean isEmployee = false;
         Status status = Status.getInstance();
-        User mockUser = new User(1,"Pepe","Perez","pepe123@gmail.com","1234","abc123");
+        String hash = BCrypt.hashpw("1234", BCrypt.gensalt());
+        User mockUser = new User(1,"Pepe","Perez","pepe123@gmail.com",hash,"abc123");
         when(userDao.getUser("pepe123@gmail.com","email")).thenReturn(mockUser);
         when(employeeDao.isEmployee(1)).thenReturn(isEmployee);
         boolean login = auth.login("pepe123@gmail.com","1234");

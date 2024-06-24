@@ -1,5 +1,4 @@
 package test;
-import app.controllers.UserController;
 import app.controllers.WalletController;
 import app.dao.WalletDao;
 import app.records.Wallet;
