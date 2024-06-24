@@ -80,10 +80,16 @@ public class MoneyOperation implements Viewable {
                     if(targetCode.equals(Status.getInstance().getUserCode())){
                         return;
                     }
+                    try{
+                        double amount = Double.parseDouble(moneyInput.getText());
+                        userController.makeTransference(targetCode,amount);
+                        updateMoneyLabel();
+                    }
+                    catch (NumberFormatException ex){
+                        System.out.println(ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Por favor, ingrese solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
 
-                    double amount = Double.parseDouble(moneyInput.getText());
-                    userController.makeTransference(targetCode,amount);
-                    updateMoneyLabel();
                 }
             });
             titleLabel.setText("Nueva Transferencia");

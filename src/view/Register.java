@@ -1,6 +1,7 @@
 package view;
 
 import app.controllers.UserController;
+import app.records.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,8 +33,9 @@ public class Register implements Viewable {
                 String passwordText = new String(password.getPassword()); //pasar como argumento y luego hashear.
                 String nameText = name.getText();
                 String surnameText = surname.getText();
-                userController.register(nameText,surnameText,emailText,passwordText);
-                Window.goTo(new UserMenu());
+                if( userController.register(nameText,surnameText,emailText,passwordText) != null){
+                    Window.goTo(new UserMenu());
+                }
             }
         });
 

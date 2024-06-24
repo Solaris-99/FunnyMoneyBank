@@ -4,6 +4,8 @@ import app.dao.UserDao;
 import app.dao.EmployeeDao;
 import app.helpers.Status;
 import app.records.User;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
@@ -22,8 +24,7 @@ public class Auth {
         try {
             User user = userDao.getUser(userEmail, "email");
             boolean isEmployee = employeeDao.isEmployee(user.id());
-            System.out.println(user);
-            if(password.equals(user.password())){
+            if(BCrypt.checkpw(password,user.password())){
                 Status status = Status.getInstance();
                 status.setLogged(true);
                 status.setUserId(user.id());
@@ -32,10 +33,10 @@ public class Auth {
                 return true;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
         catch (NoSuchElementException e){
-            System.out.println("No se encuentra el usuario");
+            System.out.println("Email/password incorrectos");
         }
         return false;
     }

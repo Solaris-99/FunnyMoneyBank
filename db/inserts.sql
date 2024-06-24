@@ -1,9 +1,10 @@
 USE FUNNYMONEYBANK;
 
+
 INSERT INTO USER(NAME, SURNAME, EMAIL, PASSWORD, CODE) VALUES
-('Pepito', 'Perez', 'pepe@gmail.com', '1234', '1'),
-('Pepacio', 'MegaPerez', 'pepe2@gmail.com', '1234', '2'),
-('Pepe', 'UltraPerez', 'pepe3@gmail.com', '1234', '3');
+('Pepito', 'Perez', 'pepe@gmail.com', '$2a$10$ofkEJzKj9QnFVAtDqAr7weG003pMrJOIysdJc6TxMK4Yj/ep0Cqqi', 'ad360ac9-15e7-4d47-b51e-7d0f3491bb77'),
+('Pepacio', 'MegaPerez', 'pepe2@gmail.com', '$2a$10$lbUbdFCyCMEUNab1r3Q3Gun075TgBIzJ3AlWSVv2xxPBn5oxufshi', '7264e843-5f45-4800-a4f9-1e38e7803dec'),
+('Pepe', 'UltraPerez', 'pepe3@gmail.com', '$2a$10$4872cAVvohJVHaJqdAYGoObkBD0l7K1dg89JB6Lnyy8KJTraX6NbO', 'd5bb595d-4775-4c32-b760-fdcffc74d447');
 
 INSERT INTO EMPLOYEE(ID_USER, SALARY) VALUES (3, 800); -- el salario es dolares, che.
 

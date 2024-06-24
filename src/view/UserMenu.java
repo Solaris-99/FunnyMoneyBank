@@ -7,6 +7,11 @@ import app.helpers.Status;
 import app.records.User;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class UserMenu implements Viewable {
     private JPanel content;
@@ -23,6 +28,7 @@ public class UserMenu implements Viewable {
     private JPanel moneyLabelPanel;
     private JLabel message;
     private JButton atmTransferences;
+    private JButton copyCode;
 
     public void setMoney(String money) {
         this.money.setText(money);
@@ -39,6 +45,7 @@ public class UserMenu implements Viewable {
             setMoney("$" + atmController.getAtm(Status.ID_ATM).money());
             replenishMoneyButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.REPLENISH)));
             atmTransferences.addActionListener(new HyperLink<>(new AtmMovements()));
+            copyCode.setVisible(false);
         } else {
             buttonsPanel.remove(replenishMoneyButton);
             buttonsPanel.remove(atmTransferences);
@@ -48,6 +55,16 @@ public class UserMenu implements Viewable {
             depositButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.DEPOSIT)));
             withdrawButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.WITHDRAW)));
             newTransferButton.addActionListener(new HyperLink<>(new MoneyOperation(Operation.TRANSFER)));
+            copyCode.setVisible(true);
+            copyCode.setEnabled(true);
+            copyCode.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    StringSelection stringSelection = new StringSelection(userController.getUser().code());
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(stringSelection, null);
+                }
+            });
         }
         buttonsPanel.revalidate();
         buttonsPanel.repaint();
@@ -73,4 +90,7 @@ public class UserMenu implements Viewable {
     }
 
 
+    private void createUIComponents() {
+            // TODO: place custom component creation code here
+    }
 }

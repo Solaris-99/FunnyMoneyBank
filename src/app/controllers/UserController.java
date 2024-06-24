@@ -5,9 +5,13 @@ import app.helpers.Operation;
 import app.helpers.Status;
 import app.records.User;
 import app.records.Wallet;
+import org.mindrot.jbcrypt.BCrypt;
+import view.Register;
+import view.Window;
 
 import javax.swing.*;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class UserController {
@@ -41,30 +45,31 @@ public class UserController {
         try{
             return userDao.getUser(Status.getInstance().getUserId(), "id");
         }
-        catch (SQLException e){
+        catch (SQLException | NoSuchElementException e){
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
         }
+        return null;
+
     }
 
     public User getUser(int id){
         try{
             return userDao.getUser(id, "id");
         }
-        catch (SQLException e){
+        catch (SQLException | NoSuchElementException e){
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
         }
+        return null;
     }
 
     public User getUser(String code){
         try{
             return userDao.getUser(code,"code");
         }
-        catch (SQLException e){
+        catch (SQLException | NoSuchElementException e){
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
         }
+        return null;
 
     }
 
@@ -76,9 +81,10 @@ public class UserController {
      * @param amount the amount of money to transfer.
      * */
     public boolean makeTransference(String userCode, double amount){
+
         Status status = Status.getInstance();
         if(status.isEmployee()){
-            throw new RuntimeException("YOU SHOULD NOT BE HERE!");
+            throw new RuntimeException("Hay que laburar, che");
         }
         if(status.getUserCode().equals(userCode)){
             return false;
@@ -95,11 +101,15 @@ public class UserController {
             walletController.updateBalance(targetWalletId,amount, Operation.DEPOSIT);
             transactionController.create(amount,currentUserWalletId, targetWalletId);
             userDao.commit();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             try{
+                System.out.println("Ocurrio un error en la operación, por favor, intentelo más tarde");
+                System.out.println(e.getMessage());
                 userDao.rollback();
+                return false;
             } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+                System.out.println(ex.getMessage());
+                return false;
             }
         }
 
@@ -137,7 +147,7 @@ public class UserController {
             try{
                 userDao.rollback();
             } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+                System.out.println(ex.getMessage());
             }
         }
     }
@@ -148,18 +158,32 @@ public class UserController {
             return null;
         }
         try{
+//            try {
+//                userDao.getUser(email,"email");
+//                return null;
+//            }
+//            catch (NoSuchElementException ne){
+//                System.out.println(ne.getMessage());
+//            }
 
             this.userDao.beginTransaction();
             String code = UUID.randomUUID().toString();
-            User user = this.userDao.createUser(name,surname,email,password,code);
+
+            String hashPass = BCrypt.hashpw(password, BCrypt.gensalt());
+            User user = this.userDao.createUser(name,surname,email,hashPass,code);
             walletController.createWallet(0,user.id());
+            userDao.commit();
             Auth auth = new Auth();
-            auth.login(email,password);
+            auth.login(user.email(),password);
             return user;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null,"No se pudo crear el usuario, por favor vuelva a intentarlo", "Error",JOptionPane.ERROR_MESSAGE);
+            String message = "No se pudo crear el usuario, por favor vuelva a intentarlo";
+            if(e.getMessage().contains("Duplicate entry")){
+                message = "Este email ya está registrado";
+            }
+            JOptionPane.showMessageDialog(null, message, "Error",JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
